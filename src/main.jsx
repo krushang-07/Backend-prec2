@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./styles/app.scss";
 
-export const server = "https://node-todo-pvo9.onrender.com/api/v1";
+export const server = "https://backendtodo-s1ic.onrender.com/api/v1";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <App />

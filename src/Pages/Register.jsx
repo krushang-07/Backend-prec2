@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import axios from "axios";
 import { server } from "../main";
 import toast from "react-hot-toast";
@@ -11,10 +11,9 @@ const Register = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
     try {
-      const { data } = axios.post(
-        `${server}/user/new`,
+      const { data } = await axios.post(
+        `${server}/users/new`,
         {
           name,
           email,
@@ -24,13 +23,13 @@ const Register = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          withCredentials: "true",
+          withCredentials: true,
         }
       );
-
+      console.log(data);
       toast.success(data.message);
     } catch (error) {
-      toast.error("some error");
+      toast.error(error.response.data.message);
     }
   };
 
