@@ -6,8 +6,26 @@ import Register from "./Pages/Register";
 import Header from "./components/Header";
 import "./styles/app.scss";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { server } from "./main";
+import axios from "axios";
 
 function App() {
+  const { setUser, setIsAuthenticated } = useContext();
+  useEffect(() => {
+    axios
+      .get(`${server}/users/me`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setUser(res.data.user);
+        setIsAuthenticated(true);
+      })
+      .catch(() => {
+        setUser({});
+        setIsAuthenticated(false);
+      });
+  });
   return (
     <>
       <Router>
