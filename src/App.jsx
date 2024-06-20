@@ -7,12 +7,14 @@ import Header from "./components/Header";
 import "./styles/app.scss";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useContext, useEffect } from "react";
-import { server } from "./main";
+import { Context, server } from "./main";
 import axios from "axios";
 
 function App() {
-  const { setUser, setIsAuthenticated } = useContext();
+  const { setUser, setIsAuthenticated, setLoading } = useContext(Context);
+
   useEffect(() => {
+    setLoading(true);
     axios
       .get(`${server}/users/me`, {
         withCredentials: true,
@@ -20,12 +22,14 @@ function App() {
       .then((res) => {
         setUser(res.data.user);
         setIsAuthenticated(true);
+        setLoading(false);
       })
-      .catch(() => {
+      .catch((error) => {
         setUser({});
         setIsAuthenticated(false);
+        setLoading(false);
       });
-  });
+  }, []);
   return (
     <>
       <Router>
